@@ -1,12 +1,16 @@
+require("dotenv").config()
+const PORT = process.env.PORT
+const REDIS_HOST = process.env.REDIS_HOST
+const REDIS_PORT = process.env.REDIS_PORT
+
 const express = require("express")
 const app = express()
-const port = 3000
 
 const redis = require("redis")
 const client = redis.createClient({
     socket: {
-        host: "localhost",
-        port: "6379"
+        host: REDIS_HOST,
+        port: REDIS_PORT,
     }
 })
 client.on("error", err => {
@@ -19,7 +23,7 @@ app.get('/', (req, res) => {
 
 client.connect()
     .then(() => {
-        app.listen(port, () => {
-            console.log(`Example app listening on port ${port}`)
+        app.listen(PORT, () => {
+            console.log(`Example app listening on port ${PORT}`)
         })
     })
