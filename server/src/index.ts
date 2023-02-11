@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }))
 // take in more than one callback function
 app.post(
     "/files",
-    upload.single("file"), // accept a single file, stored in req.file
+    upload.single("file"), // process the file, stored in req.file
     uploadFileController,
 )
 app.get("/files", getFilesController)

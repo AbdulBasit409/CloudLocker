@@ -1,32 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { getFiles } from './api/getFiles'
+import { uploadFile } from './api/uploadFile'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [file, setFile] = useState<File>()
+  const [uploads, setUploads] = useState<any[]>([])
+
+  function handleChange(event: any) {
+    setFile(event.target.files[0])
+  }
+
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault()
+    const newFile = await uploadFile(file)
+    setUploads([...uploads, newFile])
+  }
+
+  useEffect(() => {
+    getFiles()
+      .then(files => {
+        setUploads(files)
+      })
+  }, [])
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="file">File</label>
+          <input id="file" type="file" onChange={handleChange}></input>
+          <button type="submit">Upload</button>
+        </form>
+        {
+          uploads.map(upload => (
+            <div id={upload._id}>
+              <a href={`/files/${upload.filename}`} download>{upload.filename}</a>
+            </div>
+          ))
+        }
+      </>
     </div>
   )
 }
