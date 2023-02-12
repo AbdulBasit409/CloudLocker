@@ -1,5 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react'
-import reactLogo from './assets/react.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { getFiles } from './api/getFiles'
 import { uploadFile } from './api/uploadFile'
@@ -12,7 +11,7 @@ function App() {
     setFile(event.target.files[0])
   }
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: any) {
     event.preventDefault()
     const newFile = await uploadFile(file)
     setUploads([...uploads, newFile])
@@ -35,8 +34,8 @@ function App() {
         </form>
         {
           uploads.map(upload => (
-            <div id={upload._id}>
-              <a href={`/files/${upload.filename}`} download>{upload.filename}</a>
+            <div key={upload._id}>
+              <a href={`http://localhost:5000/files/${upload.filename}`} download>{upload.filename}</a>
             </div>
           ))
         }

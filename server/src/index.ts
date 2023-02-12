@@ -4,6 +4,7 @@ dotenv.config()
 import express from "express"
 import mongoose from "mongoose"
 import multer from "multer"
+import cors from "cors"
 
 import { getFilesController } from "./controllers/getFilesController.js"
 import { uploadFileController } from "./controllers/uploadFileController.js"
@@ -15,6 +16,12 @@ const upload = multer()
 
 const PORT = process.env.PORT
 const MONGO_URL = process.env.MONGO_URL
+
+// enable CORS
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true, // cookie
+}))
 
 // global middleware that parses requests with Content-Type: application/json
 app.use(express.json())
