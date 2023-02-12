@@ -4,7 +4,7 @@ export async function uploadFile(file: any) {
     const res = await fetch("http://localhost:5000/files", {
         method: "POST",
         body: formData,
-        credentials: "include",
+        credentials: "include", // include credentials (cookies) in CORS
         // headers: {
         //     "Content-Type": "multipart/form-data",
         // },
