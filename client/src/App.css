@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+
+.upload {
+  position: relative;
+}
+
+.upload .del {
+  position: absolute;
+  right: 0;
+  color: #646cff;
+}
+
+.upload .del:hover {
+  cursor: pointer;
+}

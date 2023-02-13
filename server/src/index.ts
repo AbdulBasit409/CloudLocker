@@ -13,6 +13,7 @@ import cookieSession from "cookie-session"
 import { getFilesController } from "./controllers/getFilesController.js"
 import { uploadFileController } from "./controllers/uploadFileController.js"
 import { getFileController } from "./controllers/getFileController.js"
+import { deleteFileController } from "./controllers/deleteFileController.js"
 import { isAuthenticated } from "./middleware/isAuthenticated.js"
 
 const app = express()
@@ -94,6 +95,11 @@ app.get(
     "/files/:filename",
     isAuthenticated,
     getFileController,
+)
+app.delete(
+    "/files/:filename",
+    isAuthenticated,
+    deleteFileController,
 )
 
 mongoose.connect(MONGO_URL as string)

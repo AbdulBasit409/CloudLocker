@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import { getFiles } from './api/getFiles'
 import { uploadFile } from './api/uploadFile'
+import { deleteFile } from './api/deleteFile'
 
 interface Upload {
   _id: string;
@@ -32,6 +33,13 @@ function App() {
     }
   }
 
+  async function handleDelete(filename: string) {
+    const res = await deleteFile(filename)
+    console.log(res)
+    const files = await getFiles()
+    setUploads(files)
+  }
+
   useEffect(() => {
     getFiles()
       .then(files => {
@@ -56,8 +64,9 @@ function App() {
             </form>
             {
               uploads.map(upload => (
-                <div key={upload._id}>
+                <div key={upload._id} className="upload">
                   <a href={`http://localhost:5000/files/${upload.filename}`} download>{upload.filename}</a>
+                  <span className="del" onClick={() => handleDelete(upload.filename)}>Delete</span>
                 </div>
               ))
             }
