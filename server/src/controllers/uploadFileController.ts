@@ -5,6 +5,11 @@ import { Request, Response } from "express"
 export async function uploadFileController(req: Request, res: Response) {
     // the single file
     const file = req.file
+    
+    if (file === undefined) {
+        return res.status(400).json({ error: "Bad Request" })
+    }
+
     // the document instance 
     const UploadModelInstance = new UploadModel()
     UploadModelInstance.filename = file?.originalname // the name of the file on the user's computer

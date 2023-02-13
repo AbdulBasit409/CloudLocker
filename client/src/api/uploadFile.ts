@@ -9,5 +9,8 @@ export async function uploadFile(file: any) {
         //     "Content-Type": "multipart/form-data",
         // },
     })
+    if (res.status === 400) {
+        throw new Error("Bad Request")
+    }
     return res.json()
 }

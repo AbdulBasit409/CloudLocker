@@ -20,11 +20,16 @@ function App() {
 
   async function handleSubmit(event: any) {
     event.preventDefault()
-    const newFile = await uploadFile(file)
-    setUploads([...uploads, newFile])
-    setFile(undefined);
-    // @ts-expect-error
-    fileRef.current.value = null
+    try {
+      const newFile = await uploadFile(file)
+      setUploads([...uploads, newFile])
+      setFile(undefined);
+      // @ts-expect-error
+      fileRef.current.value = null
+    }
+    catch(error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {
@@ -34,6 +39,7 @@ function App() {
         // set auth true if get files success
         setIsAuthenticated(true)
       })
+      .catch(error => console.error(error))
   }, [])
 
   return (
