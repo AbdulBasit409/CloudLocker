@@ -33,9 +33,15 @@ function App() {
     }
   }
 
-  async function handleDelete(filename: string) {
-    const res = await deleteFile(filename)
-    console.log(res)
+  async function handleDelete(event: any) {
+    const _id = event.target.getAttribute("data-_id")
+    try {
+      const res = await deleteFile(_id)
+      console.log(res)
+    }
+    catch(error) {
+      console.error(error)
+    }
     const files = await getFiles()
     setUploads(files)
   }
@@ -66,7 +72,7 @@ function App() {
               uploads.map(upload => (
                 <div key={upload._id} className="upload">
                   <a href={`http://localhost:5000/files/${upload.filename}`} download>{upload.filename}</a>
-                  <span className="del" onClick={() => handleDelete(upload.filename)}>Delete</span>
+                  <span className="del" data-_id={upload._id} onClick={handleDelete}>Delete</span>
                 </div>
               ))
             }

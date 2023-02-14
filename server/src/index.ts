@@ -97,7 +97,7 @@ app.get(
     getFileController,
 )
 app.delete(
-    "/files/:filename",
+    "/files/:_id",
     isAuthenticated,
     deleteFileController,
 )
