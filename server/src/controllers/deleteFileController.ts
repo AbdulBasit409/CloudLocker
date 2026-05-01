@@ -10,8 +10,12 @@ export async function deleteFileController(req: Request, res: Response) {
         return res.status(404).json({ error: "Upload not found" })
     }
 
-    // Delete from GCS
-    await getBucket().file(doc.filename as string).delete()
+    // Delete from GCS 
+    try {
+        await getBucket().file(doc.filename as string).delete()
+    } catch (err) {
+        console.warn("File not found in GCS, skipping:", doc.filename)
+    }
 
     // Delete from MongoDB
     const deletedCount = await UploadModel.deleteOne({ _id })

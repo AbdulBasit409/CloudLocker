@@ -109,6 +109,11 @@ app.delete(
     deleteFileController,
 )
 
+app.get("/auth/logout", (req, res) => {
+    req.session = null
+    res.json({ success: true })
+})
+
 mongoose.connect(MONGO_URL as string)
     .then(() => {
         app.listen(PORT, () => {

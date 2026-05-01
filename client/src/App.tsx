@@ -46,11 +46,18 @@ function App() {
     setUploads(files)
   }
 
+  async function handleLogout() {
+    await fetch("http://localhost:5000/auth/logout", {
+        credentials: "include"
+    })
+    setIsAuthenticated(false)
+    setUploads([])
+}
+
   useEffect(() => {
     getFiles()
       .then(files => {
         setUploads(files)
-        // set auth true if get files success
         setIsAuthenticated(true)
       })
       .catch(error => console.error(error))
@@ -63,6 +70,7 @@ function App() {
           <a href="http://localhost:5000/auth/google">Login</a>
           :
           <>
+            <button onClick={handleLogout}>Logout</button>
             <form onSubmit={handleSubmit}>
               <label htmlFor="file">File</label>
               <input id="file" type="file" onChange={handleChange} ref={fileRef}></input>
