@@ -1,4 +1,4 @@
-import { s3 } from "../libs/s3.js"
+import { getBucket } from "../libs/gcs.js"
 import { UploadModel } from "../models/uploadModel.js"
 import { Request, Response } from "express"
 
@@ -10,13 +10,10 @@ export async function deleteFileController(req: Request, res: Response) {
         return res.status(404).json({ error: "Upload not found" })
     }
 
-    await s3.deleteObject({
-        Bucket: process.env.BUCKET_NAME as string,
-        Key: doc.filename as string,
-    })
-    .promise()
+    // Delete from GCS
+    await getBucket().file(doc.filename as string).delete()
 
+    // Delete from MongoDB
     const deletedCount = await UploadModel.deleteOne({ _id })
-
     res.json(deletedCount)
 }

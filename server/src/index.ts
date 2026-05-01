@@ -1,5 +1,12 @@
 import * as dotenv from "dotenv"
-dotenv.config()
+import { fileURLToPath } from "url"
+import { dirname, join } from "path"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+console.log("Looking for .env at:", join(__dirname, "../../.env"))
+dotenv.config({ path: join(__dirname, "../.env") })
+console.log("ENV CHECK:", process.env.GOOGLE_CLIENT_ID, process.env.GCS_BUCKET_NAME)
 
 import express from "express"
 import mongoose from "mongoose"
